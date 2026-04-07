@@ -9,10 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
 {
+
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?string $id = null;
 
     #[ORM\Column(length: 150)]
     private ?string $title = null;
@@ -41,7 +43,11 @@ class Event
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'no')]
+    // ManyToOne → plusieurs events peuvent appartenir à un seul User
+    // inversedBy: 'events' → correspond à la propriété $events dans User.php
+    // nullable: false → un event doit toujours avoir un organisateur
+    #[ORM\ManyToOne(inversedBy: 'events')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $organizer = null;
 
     #[ORM\Column]
@@ -49,6 +55,12 @@ class Event
 
     #[ORM\Column(nullable: true)]
     private ?\DateTime $updatedAt = null;
+
+    public function __construct()
+{
+    // Date de création remplie automatiquement
+    $this->createdAt = new \DateTimeImmutable();
+}
 
     public function getId(): ?int
     {
