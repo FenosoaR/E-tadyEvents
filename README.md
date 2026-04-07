@@ -297,4 +297,4 @@ src/
 
 ## 📄 Licence
 
-Projet académique — E-tadyEvents © 2025
+Projet personnel — E-tadyEvents © 2025
