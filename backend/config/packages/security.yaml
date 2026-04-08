@@ -27,7 +27,9 @@ security:
             jwt: ~
 
     access_control:
-        - { path: ^/api/register, roles: PUBLIC_ACCESS }
-        - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/events, roles: IS_AUTHENTICATED_FULLY, methods: [POST, PUT, DELETE] }
-        - { path: ^/api/events, roles: PUBLIC_ACCESS, methods: [GET] }
+    - { path: ^/api/register, roles: PUBLIC_ACCESS }
+    - { path: ^/api/login, roles: PUBLIC_ACCESS }
+    - { path: ^/api/auth/google, roles: PUBLIC_ACCESS }
+    - { path: ^/api/auth/google/callback, roles: PUBLIC_ACCESS }
+    - { path: ^/api/events, roles: IS_AUTHENTICATED_FULLY, methods: [POST, PUT, DELETE] }
+    - { path: ^/api/events, roles: PUBLIC_ACCESS, methods: [GET] }
